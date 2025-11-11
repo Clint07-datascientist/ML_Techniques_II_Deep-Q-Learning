@@ -1,0 +1,68 @@
+# ------------------------------------
+# PYTHON SPECIFIC
+# ------------------------------------
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.manifest
+*.spec
+
+# Virtual Environments
+venv/
+.venv/
+env/
+.env/
+
+# Jupyter/IDE-specific files (often generated and unnecessary for Git)
+.ipynb_checkpoints
+.vscode/ # VS Code workspace/settings folder (if not sharing config)
+.idea/ # PyCharm/IntelliJ files
+*.swp # Vim swap files
+*~ # Emacs backup files
+
+
+# ------------------------------------
+# MACHINE LEARNING / REINFORCEMENT LEARNING ARTIFACTS
+# ------------------------------------
+# Stable-Baselines3, TensorBoard, and Model Saves
+# These are large, generated artifacts that shouldn't be tracked.
+
+# 1. TensorBoard Logs
+# Your train.py uses "./logs/tensorboard/" and "./logs/"
+logs/
+.logs/ # Catching dot-prefixed log folders too
+
+# 2. Model Checkpoints and Final Policy
+# Your final model save
+*.zip
+*.pt
+*.pth
+*.pkl
+
+# Checkpoints/Best Model folder
+logs/best_model/
+logs/checkpoints/
+
+# 3. Evaluation and Recording
+*.mp4
+*.gif
+*.avi
