@@ -1,0 +1,96 @@
+[
+    {
+        "label": "gymnasium",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "gymnasium",
+        "description": "gymnasium",
+        "detail": "gymnasium",
+        "documentation": {}
+    },
+    {
+        "label": "DQN",
+        "importPath": "stable_baselines3",
+        "description": "stable_baselines3",
+        "isExtraImport": true,
+        "detail": "stable_baselines3",
+        "documentation": {}
+    },
+    {
+        "label": "evaluate_policy",
+        "importPath": "stable_baselines3.common.evaluation",
+        "description": "stable_baselines3.common.evaluation",
+        "isExtraImport": true,
+        "detail": "stable_baselines3.common.evaluation",
+        "documentation": {}
+    },
+    {
+        "label": "EvalCallback",
+        "importPath": "stable_baselines3.common.callbacks",
+        "description": "stable_baselines3.common.callbacks",
+        "isExtraImport": true,
+        "detail": "stable_baselines3.common.callbacks",
+        "documentation": {}
+    },
+    {
+        "label": "CheckpointCallback",
+        "importPath": "stable_baselines3.common.callbacks",
+        "description": "stable_baselines3.common.callbacks",
+        "isExtraImport": true,
+        "detail": "stable_baselines3.common.callbacks",
+        "documentation": {}
+    },
+    {
+        "label": "Monitor",
+        "importPath": "stable_baselines3.common.monitor",
+        "description": "stable_baselines3.common.monitor",
+        "isExtraImport": true,
+        "detail": "stable_baselines3.common.monitor",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "numpy",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "numpy",
+        "description": "numpy",
+        "detail": "numpy",
+        "documentation": {}
+    },
+    {
+        "label": "ale_py",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "ale_py",
+        "description": "ale_py",
+        "detail": "ale_py",
+        "documentation": {}
+    },
+    {
+        "label": "make_env",
+        "kind": 2,
+        "importPath": "experiments_train",
+        "description": "experiments_train",
+        "peekOfCode": "def make_env():\n    \"\"\"Create and wrap the Pong environment\"\"\"\n    env = gym.make(\"ALE/Pong-v5\", render_mode=None)\n    env = Monitor(env)\n    return env\n# TRAINING FUNCTION\ndef train_dqn(hyperparams, model_name=\"dqn_experiment\"):\n    \"\"\"Train a DQN agent with specified hyperparameters.\"\"\"\n    env = make_env()\n    eval_env = make_env()",
+        "detail": "experiments_train",
+        "documentation": {}
+    },
+    {
+        "label": "train_dqn",
+        "kind": 2,
+        "importPath": "experiments_train",
+        "description": "experiments_train",
+        "peekOfCode": "def train_dqn(hyperparams, model_name=\"dqn_experiment\"):\n    \"\"\"Train a DQN agent with specified hyperparameters.\"\"\"\n    env = make_env()\n    eval_env = make_env()\n    os.makedirs(\"./logs/\", exist_ok=True)\n    os.makedirs(\"./logs/checkpoints/\", exist_ok=True)\n    os.makedirs(\"./models/\", exist_ok=True)\n    # Evaluation callback\n    eval_callback = EvalCallback(\n        eval_env,",
+        "detail": "experiments_train",
+        "documentation": {}
+    }
+]
