@@ -1,0 +1,40 @@
+# venvs & OS clutter
+.venv/
+env/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Training artifacts we DON'T want huge noise from
+logs/**/tb/events.*     # TB event files can be many – keep CSVs
+videos/
+recordings/
+tmp/
+cache/
+*.tmp
+
+# AutoROM cache (outside repo by default, but just in case)
+roms/
+AutoROM.log
+
+# Large raw arrays/checkpoints if you ever dump them
+*.npz
+*.npy
+*.pt
+checkpoints/
+
+# Keep models (.zip) and CSV logs tracked
+!models/
+!models/*.zip
+!logs/**/metrics.csv
