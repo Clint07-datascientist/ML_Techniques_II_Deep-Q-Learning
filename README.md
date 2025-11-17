@@ -103,34 +103,33 @@ Each group member performed **10 independent experiments**, adjusting:
 
 ### Member 3: Clinton Pikita
 
-| Experiment | lr | γ | batch | eps_start | eps_end | eps_decay/expl.frac | Observed Behavior |
-|-----------|----|----|-------|-----------|---------|-------------------|-----------------|
-| 1 | | | | | | | |
-| 2 | | | | | | | |
-| 3 | | | | | | | |
-| 4 | | | | | | | |
-| 5 | | | | | | | |
-| 6 | | | | | | | |
-| 7 | | | | | | | |
-| 8 | | | | | | | |
-| 9 | | | | | | | |
-| 10 | | | | | | | |
+| Experiment | lr      | γ      | batch | eps_start | eps_end | eps_decay/expl.frac | Observed Behavior |
+|------------|---------|--------|-------|-----------|---------|--------------------|-----------------|
+| 1          | 1.0e-4  | 0.99   | 64    | 1.0       | 0.02    | 0.12               |                 |
+| 2          | 7.5e-5  | 0.97   | 32    | 1.0       | 0.05    | 0.12               |                 |
+| 3          | 2.0e-4  | 0.995  | 128   | 1.0       | 0.01    | 0.12               |                 |
+| 4          | 3.0e-4  | 0.992  | 96    | 1.0       | 0.02    | 0.12               |                 |
+| 5          | 5.0e-5  | 0.98   | 48    | 1.0       | 0.08    | 0.12               |                 |
+| 6          | 1.5e-4  | 0.995  | 32    | 1.0       | 0.015   | 0.12               |                 |
+| 7          | 2.5e-4  | 0.997  | 64    | 1.0       | 0.005   | 0.12               |                 |
+| 8          | 7.0e-5  | 0.99   | 128   | 1.0       | 0.03    | 0.12               |                 |
+| 9          | 3.5e-4  | 0.985  | 64    | 1.0       | 0.04    | 0.12               |                 |
+| 10         | 9.0e-5  | 0.993  | 96    | 1.0       | 0.015   | 0.12               |                 |
 
 ### Member 4: Amandine Irakoze
 
-| Experiment | lr | γ | batch | eps_start | eps_end | eps_decay/expl.frac | Observed Behavior |
-|-----------|----|----|-------|-----------|---------|-------------------|-----------------|
-| 1 | | | | | | | |
-| 2 | | | | | | | |
-| 3 | | | | | | | |
-| 4 | | | | | | | |
-| 5 | | | | | | | |
-| 6 | | | | | | | |
-| 7 | | | | | | | |
-| 8 | | | | | | | |
-| 9 | | | | | | | |
-| 10 | | | | | | | |
-
+| Experiment                 | lr      | γ      | batch | eps_start | eps_end | eps_decay/expl.frac      | Observed Behavior                                                                                                   |
+|-----------------------------|---------|--------|-------|-----------|---------|--------------------------|--------------------------------------------------------------------------------------------------------------------|
+| Exp_1_Baseline              | 1e-4    | 0.99   | 32    | 1.0       | ?       | 20k steps                | Standard Performance. Stable but slow learning due to limited 100k steps; serves as the benchmark.                |
+| Exp_2_High_LR               | 5e-4    | 0.99   | 32    | 1.0       | ?       | 20k steps                | Instability Risk. High learning rate causes volatile Q-value updates, leading to increased variance and possible divergence. |
+| Exp_3_Low_LR                | 1e-5    | 0.99   | 32    | 1.0       | ?       | 20k steps                | Minimal Learning. Updates are too small for a quick convergence; agent fails to move significantly past initial random policy. |
+| Exp_4_Low_Gamma             | 1e-4    | 0.9    | 32    | 1.0       | ?       | 20k steps                | Short-Term Bias. Low γ heavily discounts future rewards, making agent focus on immediate gains rather than strategic long-term plays. |
+| Exp_5_High_Gamma            | 1e-4    | 0.999  | 32    | 1.0       | ?       | 20k steps                | Long-Term Focus/Oscillation. High γ creates strong dependency on future values, often causing unstable Q-network updates early in training. |
+| Exp_6_Large_Batch           | 1e-4    | 0.99   | 128   | 1.0       | ?       | 20k steps                | Smooth but Slower. Large batch size reduces gradient variance (stability) but fewer updates per step, potentially slowing overall learning. |
+| Exp_7_Fast_Exploration      | 1e-4    | 0.99   | 32    | 1.0       | ?       | 10k steps (0.1 frac)     | Premature Exploitation. Epsilon decays too quickly; agent locks onto sub-optimal policy early, limiting effective exploration. |
+| Exp_8_Slow_Exploration      | 1e-4    | 0.99   | 32    | 1.0       | ?       | 80k steps (0.8 frac)     | Excessive Exploration. Agent spends too much time exploring (80% of steps); optimal policy forms too late for good final performance. |
+| Exp_9_Low_LR_Low_Gamma      | 1e-5    | 0.9    | 32    | 1.0       | ?       | 20k steps                | Highly Conservative. Minimal learning due to tiny updates and short-term focus; stable but functionally poor.    |
+| Exp_10_High_LR_High_Gamma   | 5e-4    | 0.999  | 32    | 1.0       | ?       | 20k steps                | Total Q-Value Collapse. Aggressive combination of high LR and γ causes severe divergence, worst outcome.         |
 
 ## Task 2 – Evaluating & Playing the Agent (`play.py`)
 
@@ -147,7 +146,7 @@ The evaluation script:
 
 A short video demonstrating the trained agent playing Pong:
  
-**insert GitHub video link**
+**https://drive.google.com/file/d/1UnFEE9iDTYyBcOp2NBVoZdXeecJgd-pg/view?usp=sharing**
 
 ## Task 3 – Group Presentation Summary
 
