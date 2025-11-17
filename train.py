@@ -10,14 +10,16 @@ from stable_baselines3 import DQN
 from stable_baselines3.common.evaluation import evaluate_policy
 from stable_baselines3.common.callbacks import EvalCallback, CheckpointCallback
 from stable_baselines3.common.monitor import Monitor
+from stable_baselines3.common.env_util import make_atari_env
+from stable_baselines3.common.vec_env import VecFrameStack
 import os
 import ale_py
-def make_env():
+def make_atari_env_stacked(env_id="ALE/Pong-v5", n_envs=1, seed=0, num_stack=4):
     """Create and wrap the Pong environment"""
-    env = gym.make("ALE/Pong-v5", render_mode=None)
-    env = Monitor(env)
+    env = make_atari_env(env_id, n_envs=n_envs, seed=seed)
+    env = VecFrameStack(env, n_stack=num_stack)
     return env
-def train_dqn(hyperparams, model_name="dqn_baseline"):
+def train_dqn(env_id,hyperparams, model_name="dqn_baseline"):
     """
     Train a DQN agent with specified hyperparameters
     
@@ -26,8 +28,9 @@ def train_dqn(hyperparams, model_name="dqn_baseline"):
         model_name: Name to save the model
     """
     # Create environment
-    env = make_env()
-    eval_env = make_env()
+
+    env = make_atari_env_stacked(env_id)
+    eval_env = make_atari_env_stacked(env_id, seed=42)
     
     # Create callbacks directory
     os.makedirs("./logs/", exist_ok=True)
@@ -101,82 +104,89 @@ def train_dqn(hyperparams, model_name="dqn_baseline"):
 
 
 if __name__ == "__main__":
-    # Hyperparameter configurations to test
-    
-    # Configuration 1: Baseline
-    hyperparams_1 = {
-        'learning_rate': 1e-4,
-        'buffer_size': 100000,
-        'learning_starts': 500000,
-        'batch_size': 32,
-        'gamma': 0.99,
-        'train_freq': 4,
-        'gradient_steps': 1,
-        'target_update_interval': 100,
-        'exploration_fraction': 0.1,
-        'exploration_initial_eps': 1.0,
-        'exploration_final_eps': 0.05,
-        'total_timesteps': 100000
+    # --- Define Experiments ---
+    ATARI_ENV_ID = "ALE/Pong-v5" 
+    TOTAL_TIMESTEPS = 100000 # SET TO 100,000 TIMESTEPS
+
+    # BASE CONFIGURATION ADAPTED FOR 100K STEPS 
+    BASE_PARAMS = {
+        'learning_rate': 1e-4, 
+        'buffer_size': 30000, 
+        'learning_starts': 5000, # CRITICAL: Start training at step 5,000
+        'batch_size': 32, 
+        'gamma': 0.99, 
+        'train_freq': 4, 
+        'gradient_steps': 1, 
+        'target_update_interval': 1000, 
+        'exploration_fraction': 0.2, # Epsilon decays over 20,000 steps (20% of 100k)
+        'exploration_initial_eps': 1.0, 
+        'exploration_final_eps': 0.05, 
+        'total_timesteps': TOTAL_TIMESTEPS 
+    }
+
+    # Define the 10 hyperparameter experiments
+    hyperparams_experiments = {
+        "Exp_1_Baseline": BASE_PARAMS,
+        "Exp_2_High_LR": {**BASE_PARAMS, 'learning_rate': 5e-4}, 
+        "Exp_3_Low_LR": {**BASE_PARAMS, 'learning_rate': 1e-5}, 
+        "Exp_4_Low_Gamma": {**BASE_PARAMS, 'gamma': 0.9}, 
+        "Exp_5_High_Gamma": {**BASE_PARAMS, 'gamma': 0.999}, 
+        "Exp_6_Large_Batch": {**BASE_PARAMS, 'batch_size': 128}, 
+        "Exp_7_Fast_Exploration": {**BASE_PARAMS, 'exploration_fraction': 0.1, 'exploration_final_eps': 0.01}, # Decay over 10k steps
+        "Exp_8_Slow_Exploration": {**BASE_PARAMS, 'exploration_fraction': 0.8, 'exploration_final_eps': 0.1}, # Decay over 80k steps
+        "Exp_9_Low_LR_Low_Gamma": {**BASE_PARAMS, 'learning_rate': 1e-5, 'gamma': 0.9}, 
+        "Exp_10_High_LR_High_Gamma": {**BASE_PARAMS, 'learning_rate': 5e-4, 'gamma': 0.999}, 
     }
     
-    # Configuration 2: Higher learning rate, faster exploration decay
-    hyperparams_2 = {
-        'learning_rate': 5e-4,
-        'buffer_size': 100000,
-        'learning_starts': 500000,
-        'batch_size': 64,
-        'gamma': 0.99,
-        'train_freq': 4,
-        'gradient_steps': 1,
-        'target_update_interval': 100,
-        'exploration_fraction': 0.2,
-        'exploration_initial_eps': 1.0,
-        'exploration_final_eps': 0.01,
-        'total_timesteps': 100000
-    }
-    
-    # Configuration 3: More conservative (lower learning rate, slower exploration)
-    hyperparams_3 = {
-        'learning_rate': 1e-5,
-        'buffer_size': 100000,
-        'learning_starts': 500000,
-        'batch_size': 32,
-        'gamma': 0.95,
-        'train_freq': 4,
-        'gradient_steps': 1,
-        'target_update_interval': 100,
-        'exploration_fraction': 0.3,
-        'exploration_initial_eps': 1.0,
-        'exploration_final_eps': 0.1,
-        'total_timesteps': 100000
-    }
-    
-    # Configuration 4: Larger batch, higher gamma
-    hyperparams_4 = {
-        'learning_rate': 2.5e-4,
-        'buffer_size': 100000,
-        'learning_starts': 500000,
-        'batch_size': 128,
-        'gamma': 0.99,
-        'train_freq': 8,
-        'gradient_steps': 2,
-        'target_update_interval': 100,
-        'exploration_fraction': 0.15,
-        'exploration_initial_eps': 1.0,
-        'exploration_final_eps': 0.02,
-        'total_timesteps': 100000
-    }
-    
-    # Choose which configuration to run (change this to test different configs)
-    selected_config = hyperparams_1
-    
-    # Train the model
-    model, mean_reward, std_reward = train_dqn(
-        selected_config, 
-        model_name="dqn_baseline"
-    )
-    
-    print("\n" + "="*60)
-    print("Training completed!")
+    results = []
+
+    # Run all 10 experiments
     print("="*60)
+    print(f"Starting Hyperparameter Tuning on {ATARI_ENV_ID} (100k steps each)")
+    print("="*60)
+
+    for name, params in hyperparams_experiments.items():
+        result = train_dqn(
+            env_id=ATARI_ENV_ID,
+            hyperparams=params,
+            model_name=name
+        )
+        results.append(result)
+        print("-" * 60)
+
+    # Print summary table structure for required documentation
+    print("\n\n" + "#" * 70)
+    print("Hyperparameter Tuning Summary for Documentation")
+    print("#" * 70)
+    print("| Experiment | Hyperparameter Set | Mean Reward +/- Std Dev | Noted Behavior |")
+    print("|:---:|:---|:---:|:---|")
     
+    for r in results:
+        
+        # 💡 CRITICAL FIX: Check if the item 'r' is a dictionary. 
+        # If it's a tuple or anything else, skip it and print an error message.
+        if not isinstance(r, dict):
+            print(f"| CORRUPTED | Data structure failure | N/A | Entry was not a dictionary (likely a tuple). |")
+            continue  # Skips the current iteration and moves to the next good one
+            
+        eps_start = r['hyperparams']['exploration_initial_eps']
+        eps_end = r['hyperparams']['exploration_final_eps']
+        eps_decay_proxy = r['hyperparams']['exploration_fraction'] 
+
+        param_set_str = (
+            f"lr={r['hyperparams']['learning_rate']}, "
+            f"gamma={r['hyperparams']['gamma']}, "
+            f"batch={r['hyperparams']['batch_size']}, "
+            f"eps_start={eps_start}, eps_end={eps_end}, "
+            f"eps_decay_frac={eps_decay_proxy}"
+        )
+        
+        behavior = "OBSERVE TENSORBOARD AND FILL THIS IN" 
+        
+        print(
+            f"| {r['model_name']} | {param_set_str} | "
+            f"{r['mean_reward']:.2f} +/- {r['std_reward']:.2f} | "
+            f"{behavior} |"
+        )
+    
+    print("\nNOTE: Run this script and use the TensorBoard logs in ./logs/tensorboard/ to fill out the 'Noted Behavior' column.")
