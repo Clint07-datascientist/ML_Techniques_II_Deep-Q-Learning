@@ -40,14 +40,14 @@ Pong is ideal for DQN because it is:
 ## Repository Structure
 
 ML_Techniques_II_Deep-Q-Learning/
-│── train.py
-│── play.py
-│── requirements.txt
-│── README.md
-│── /logs
-│ ├── best_model/
-│ └── checkpoints/
-│── dqn_model.zip
+├── train.py            # Script to train the DQN agent
+├── play.py             # Script to load and play with the trained agent
+├── requirements.txt    # Python dependencies
+├── README.md           # Project documentation
+├── logs/
+│   ├── best_model/     # Folder containing the best model checkpoint
+│   └── checkpoints/    # Folder containing intermediate checkpoints
+└── dqn_model.zip       # Trained DQN model
 
 ## Task 1 – Training the Agent (`train.py`)
 
