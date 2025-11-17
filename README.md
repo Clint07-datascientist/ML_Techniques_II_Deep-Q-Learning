@@ -6,7 +6,7 @@ Group Project – ML Techniques II
 
 This project applies **Deep Q-Networks (DQN)** using **Stable Baselines3** on **Gymnasium Atari environments**.  
 
-Each group member independently:
+Each group member independently in different branches:
 
 - Trained a DQN agent using `train.py`  
 - Performed **10 hyperparameter tuning experiments**  
