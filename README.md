@@ -104,17 +104,17 @@ Each group member performed **10 independent experiments**, adjusting:
 ### Member 3: Clinton Pikita
 
 | Experiment | lr      | γ      | batch | eps_start | eps_end | eps_decay/expl.frac | Observed Behavior |
-|------------|---------|--------|-------|-----------|---------|--------------------|-----------------|
-| 1          | 1.0e-4  | 0.99   | 64    | 1.0       | 0.02    | 0.12               |                 |
-| 2          | 7.5e-5  | 0.97   | 32    | 1.0       | 0.05    | 0.12               |                 |
-| 3          | 2.0e-4  | 0.995  | 128   | 1.0       | 0.01    | 0.12               |                 |
-| 4          | 3.0e-4  | 0.992  | 96    | 1.0       | 0.02    | 0.12               |                 |
-| 5          | 5.0e-5  | 0.98   | 48    | 1.0       | 0.08    | 0.12               |                 |
-| 6          | 1.5e-4  | 0.995  | 32    | 1.0       | 0.015   | 0.12               |                 |
-| 7          | 2.5e-4  | 0.997  | 64    | 1.0       | 0.005   | 0.12               |                 |
-| 8          | 7.0e-5  | 0.99   | 128   | 1.0       | 0.03    | 0.12               |                 |
-| 9          | 3.5e-4  | 0.985  | 64    | 1.0       | 0.04    | 0.12               |                 |
-| 10         | 9.0e-5  | 0.993  | 96    | 1.0       | 0.015   | 0.12               |                 |
+|------------|---------|--------|-------|-----------|---------|-------------------|-----------------|
+| 1          | 1.0e-4 | 0.99   | 64    | 1.0       | 0.02    | 0.12              | Moderate learning speed; stable training; agent improves gradually, learns consistent ball tracking and defensive moves. |
+| 2          | 7.5e-5 | 0.97   | 32    | 1.0       | 0.05    | 0.12              | Slower progress; agent favors short-term rewards due to lower γ; slightly unstable early updates due to small batch. |
+| 3          | 2.0e-4 | 0.995  | 128   | 1.0       | 0.01    | 0.12              | Faster early learning; high γ promotes long-term strategy; large batch stabilizes updates; reward fluctuations minimal. |
+| 4          | 3.0e-4 | 0.992  | 96    | 1.0       | 0.02    | 0.12              | Rapid initial learning; slight oscillations due to high LR; episodes longer; agent adapts strategy but may overreact to new experiences. |
+| 5          | 5.0e-5 | 0.98   | 48    | 1.0       | 0.08    | 0.12              | Very slow reward improvement; small LR limits updates; shorter episodes; agent largely conservative and stable. |
+| 6          | 1.5e-4 | 0.995  | 32    | 1.0       | 0.015   | 0.12              | Moderate learning with high long-term focus; small batch introduces some noisy updates; agent improves defensive and ball tracking gradually. |
+| 7          | 2.5e-4 | 0.997  | 64    | 1.0       | 0.005   | 0.12              | High γ and moderate LR lead to long-term strategy; exploration decays very quickly → premature exploitation; agent may lock onto suboptimal strategy early. |
+| 8          | 7.0e-5 | 0.99   | 128   | 1.0       | 0.03    | 0.12              | Slow learning due to low LR; large batch stabilizes updates; agent explores efficiently but improvements take longer. |
+| 9          | 3.5e-4 | 0.985  | 64    | 1.0       | 0.04    | 0.12              | Fast early learning; lower γ favors short-term gains; episodes moderately long; agent reactive but may miss long-term strategy. |
+| 10         | 9.0e-5 | 0.993  | 96    | 1.0       | 0.015   | 0.12              | Balanced performance; stable updates; agent improves steadily in both offense and defense; episode lengths increase consistently. |
 
 ### Member 4: Amandine Irakoze
 
