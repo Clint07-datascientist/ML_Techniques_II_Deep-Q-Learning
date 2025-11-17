@@ -17,6 +17,14 @@
         "documentation": {}
     },
     {
+        "label": "DQN",
+        "importPath": "stable_baselines3",
+        "description": "stable_baselines3",
+        "isExtraImport": true,
+        "detail": "stable_baselines3",
+        "documentation": {}
+    },
+    {
         "label": "evaluate_policy",
         "importPath": "stable_baselines3.common.evaluation",
         "description": "stable_baselines3.common.evaluation",
@@ -76,6 +84,15 @@
         "documentation": {}
     },
     {
+        "label": "time",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "time",
+        "description": "time",
+        "detail": "time",
+        "documentation": {}
+    },
+    {
         "label": "make_env",
         "kind": 2,
         "importPath": "experiments_train",
@@ -91,6 +108,24 @@
         "description": "experiments_train",
         "peekOfCode": "def train_dqn(hyperparams, model_name=\"dqn_experiment\"):\n    \"\"\"Train a DQN agent with specified hyperparameters.\"\"\"\n    env = make_env()\n    eval_env = make_env()\n    os.makedirs(\"./logs/\", exist_ok=True)\n    os.makedirs(\"./logs/checkpoints/\", exist_ok=True)\n    os.makedirs(\"./models/\", exist_ok=True)\n    # Evaluation callback\n    eval_callback = EvalCallback(\n        eval_env,",
         "detail": "experiments_train",
+        "documentation": {}
+    },
+    {
+        "label": "make_env",
+        "kind": 2,
+        "importPath": "play",
+        "description": "play",
+        "peekOfCode": "def make_env():\n    \"\"\"Create the Pong environment with human-render mode.\"\"\"\n    env = gym.make(\"ALE/Pong-v5\", render_mode=\"human\")\n    return env\ndef play(model_path, episodes=3):\n    \"\"\"\n    Play Pong using a trained DQN model.\n    Args:\n        model_path (str): Path to the saved DQN model (.zip file)\n        episodes (int): Number of episodes to play",
+        "detail": "play",
+        "documentation": {}
+    },
+    {
+        "label": "play",
+        "kind": 2,
+        "importPath": "play",
+        "description": "play",
+        "peekOfCode": "def play(model_path, episodes=3):\n    \"\"\"\n    Play Pong using a trained DQN model.\n    Args:\n        model_path (str): Path to the saved DQN model (.zip file)\n        episodes (int): Number of episodes to play\n    \"\"\"\n    print(f\"\\nLoading model from: {model_path}\")\n    model = DQN.load(model_path)\n    env = make_env()",
+        "detail": "play",
         "documentation": {}
     }
 ]
