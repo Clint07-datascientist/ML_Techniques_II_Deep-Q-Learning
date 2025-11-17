@@ -150,21 +150,83 @@ A short video demonstrating the trained agent playing Pong:
 
 ## Task 3 – Group Presentation Summary
 
-Each member presented:
+# Hyperparameter Tuning Results – Pong-v5 DQN
 
-1. Their Atari environment (`ALE/Pong-v5`)  
-2. Their 10 hyperparameter experiments  
-   - What changed?  
-   - Why it affected performance?  
-   - Worst combination?  
-   - Best performing configuration?  
-3. Key insights learned  
-   - Lower learning rate stabilized training  
-   - Higher epsilon decay improved exploration  
-   - Batch size affected variance  
-   - CNNPolicy outperformed MLP  
-4. Final best model per member  
-5. Short gameplay demo showing the agent’s performance
+## 1. Overview
+Each member performed 10 hyperparameter tuning experiments on the **Pong-v5** Atari environment using DQN. The main hyperparameters varied include:
+
+- **Learning Rate (lr)** – step size for Q-network updates  
+- **Discount Factor (γ)** – weighting of future rewards  
+- **Batch Size** – number of samples per gradient update  
+- **Epsilon / Exploration** – `eps_start`, `eps_end`, `eps_decay` controlling exploration vs exploitation  
+
+The goal was to identify combinations that maximize reward and episode length while ensuring stable learning.
+
+## 2. Observed Trends Across Members
+
+### Learning Rate (lr)
+- **Low LR (1e-5 – 5e-5)**  
+  - Members 1, 3, and 4 showed very slow learning, with rewards plateauing or minimal improvement.  
+  - **Pros:** Stable updates, low variance  
+  - **Cons:** Convergence extremely slow; agent may fail to learn meaningful strategies
+
+- **Moderate LR (1e-4 – 2.5e-4)**  
+  - Members 1 and 2 found gradual but steady improvement.  
+  - Balanced trade-off between stability and learning speed
+
+- **High LR (5e-4)**  
+  - Members 1 and 4 experienced instability and oscillations, sometimes causing Q-value divergence  
+  - **Risk:** fast early learning but poor final policy
+
+### Discount Factor (γ)
+- **Lower γ (0.9 – 0.98)**  
+  - Encouraged short-term reward focus, leading to stable but sometimes suboptimal strategies (Member 4 Exp_4, Exp_9)  
+  - Agent learns immediate defensive/offensive moves but may ignore long-term rewards
+
+- **Higher γ (0.995 – 0.999)**  
+  - Promoted long-term planning, but caused instability in early training due to large Q-value dependencies (Member 4 Exp_5, Exp_10)  
+  - Often paired with high LR → high risk of Q-value collapse
+
+### Batch Size
+- **Small batches (16–32)**  
+  - Increased gradient variance → more noisy updates, sometimes unstable early learning (Member 1 Exp_6)  
+  - Can accelerate adaptation to new experience but less smooth
+
+- **Large batches (64–128)**  
+  - Reduced gradient variance → smoother learning, more stable convergence (Members 2 D5, 3 Exp_3, 8)  
+  - Fewer updates per step may slightly slow learning initially
+
+### Epsilon / Exploration
+- **Fast decay**  
+  - Premature exploitation → agent locks into suboptimal policy early (Member 4 Exp_7)  
+  - Rewards may plateau before optimal strategy emerges
+
+- **Slow decay / long exploration**  
+  - Agent explores longer, can find better policies (Member 4 Exp_8)  
+  - Risk: Optimal strategy forms late; initial rewards remain low
+
+## 3. Key Insights
+
+### Learning Rate
+- Moderate LR (1e-4 – 2.5e-4) provides best trade-off between learning speed and stability  
+- Too high → instability; too low → stagnation
+
+### Discount Factor (γ)
+- Higher γ favors long-term reward but can destabilize learning with high LR  
+- Lower γ stabilizes learning but may underperform in strategy-based games
+
+### Batch Size
+- Larger batch sizes improve stability by reducing gradient noise  
+- Smaller batches allow faster adaptation but may oscillate
+
+### Epsilon Decay / Exploration
+- Fast decay → early exploitation, potential suboptimal policy  
+- Slow decay → better exploration, potential for higher final rewards, but slower initial gains
+
+### General Observations
+- CNN-based DQN policies outperform MLP in visual Atari tasks  
+- Balancing LR, γ, batch size, and exploration is crucial  
+- Best configurations consistently paired moderate LR, high γ (~0.995), medium batch size, and controlled epsilon decay
 
 ## Run Instructions
 
