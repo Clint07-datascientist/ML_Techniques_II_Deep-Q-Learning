@@ -118,18 +118,18 @@ Each group member performed **10 independent experiments**, adjusting:
 
 ### Member 4: Amandine Irakoze
 
-| Experiment                 | lr      | γ      | batch | eps_start | eps_end | eps_decay/expl.frac      | Observed Behavior                                                                                                   |
-|-----------------------------|---------|--------|-------|-----------|---------|--------------------------|--------------------------------------------------------------------------------------------------------------------|
-| Exp_1_Baseline              | 1e-4    | 0.99   | 32    | 1.0       | ?       | 20k steps                | Standard Performance. Stable but slow learning due to limited 100k steps; serves as the benchmark.                |
-| Exp_2_High_LR               | 5e-4    | 0.99   | 32    | 1.0       | ?       | 20k steps                | Instability Risk. High learning rate causes volatile Q-value updates, leading to increased variance and possible divergence. |
-| Exp_3_Low_LR                | 1e-5    | 0.99   | 32    | 1.0       | ?       | 20k steps                | Minimal Learning. Updates are too small for a quick convergence; agent fails to move significantly past initial random policy. |
-| Exp_4_Low_Gamma             | 1e-4    | 0.9    | 32    | 1.0       | ?       | 20k steps                | Short-Term Bias. Low γ heavily discounts future rewards, making agent focus on immediate gains rather than strategic long-term plays. |
-| Exp_5_High_Gamma            | 1e-4    | 0.999  | 32    | 1.0       | ?       | 20k steps                | Long-Term Focus/Oscillation. High γ creates strong dependency on future values, often causing unstable Q-network updates early in training. |
-| Exp_6_Large_Batch           | 1e-4    | 0.99   | 128   | 1.0       | ?       | 20k steps                | Smooth but Slower. Large batch size reduces gradient variance (stability) but fewer updates per step, potentially slowing overall learning. |
-| Exp_7_Fast_Exploration      | 1e-4    | 0.99   | 32    | 1.0       | ?       | 10k steps (0.1 frac)     | Premature Exploitation. Epsilon decays too quickly; agent locks onto sub-optimal policy early, limiting effective exploration. |
-| Exp_8_Slow_Exploration      | 1e-4    | 0.99   | 32    | 1.0       | ?       | 80k steps (0.8 frac)     | Excessive Exploration. Agent spends too much time exploring (80% of steps); optimal policy forms too late for good final performance. |
-| Exp_9_Low_LR_Low_Gamma      | 1e-5    | 0.9    | 32    | 1.0       | ?       | 20k steps                | Highly Conservative. Minimal learning due to tiny updates and short-term focus; stable but functionally poor.    |
-| Exp_10_High_LR_High_Gamma   | 5e-4    | 0.999  | 32    | 1.0       | ?       | 20k steps                | Total Q-Value Collapse. Aggressive combination of high LR and γ causes severe divergence, worst outcome.         |
+| Experiment               | lr     | γ      | batch | eps_start | eps_end | eps_decay/expl.frac  | Observed Behavior                                                                                                   |
+|--------------------------|--------|--------|-------|-----------|---------|------------------------|----------------------------------------------------------------------------------------------------------------------|
+| Exp_1_Baseline           | 1e-4   | 0.99   | 32    | 1.0       | 0.02    | 20k steps              | Standard performance. Stable but slow learning due to limited 100k steps; serves as the benchmark.                   |
+| Exp_2_High_LR            | 5e-4   | 0.99   | 32    | 1.0       | 0.02    | 20k steps              | Instability risk. High LR causes volatile Q-value updates, increasing variance and potential divergence.             |
+| Exp_3_Low_LR             | 1e-5   | 0.99   | 32    | 1.0       | 0.02    | 20k steps              | Minimal learning. Updates too small for convergence; agent remains close to random policy.                           |
+| Exp_4_Low_Gamma          | 1e-4   | 0.9    | 32    | 1.0       | 0.02    | 20k steps              | Short-term bias. Low γ makes agent ignore long-term strategies.                                                      |
+| Exp_5_High_Gamma         | 1e-4   | 0.999  | 32    | 1.0       | 0.02    | 20k steps              | Long-term focus / oscillation. Very high γ causes unstable bootstrapping early in training.                          |
+| Exp_6_Large_Batch        | 1e-4   | 0.99   | 128   | 1.0       | 0.02    | 20k steps              | Smooth but slower. Large batch lowers gradient noise but reduces update frequency.                                   |
+| Exp_7_Fast_Exploration   | 1e-4   | 0.99   | 32    | 1.0       | 0.02    | 10k steps (0.1 frac)   | Premature exploitation. Epsilon decays too fast, causing agent to lock into suboptimal behavior early.              |
+| Exp_8_Slow_Exploration   | 1e-4   | 0.99   | 32    | 1.0       | 0.02    | 80k steps (0.8 frac)   | Excessive exploration. Agent explores too long; optimal policy emerges late or not at all.                           |
+| Exp_9_Low_LR_Low_Gamma   | 1e-5   | 0.9    | 32    | 1.0       | 0.02    | 20k steps              | Highly conservative. Tiny updates + short-term planning → very weak overall performance.                             |
+| Exp_10_High_LR_High_Gamma| 5e-4   | 0.999  | 32    | 1.0       | 0.02    | 20k steps              | Total Q-value collapse. Aggressive LR + γ combination leads to divergence and worst training outcome.               |
 
 ## Task 2 – Evaluating & Playing the Agent (`play.py`)
 
