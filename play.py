@@ -54,6 +54,6 @@ def play(model_path, episodes=3):
 
 if __name__ == "__main__":
     # Path to best model from training
-    model_path = "./models/best_of_10.zip"
+    model_path = "./models/exp10.zip"
 
     play(model_path, episodes=3)
